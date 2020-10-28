@@ -5,22 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multter app</title>
+    <style>
+        /* div.container {
+            text-align: center;
+            padding: 10px 20px;
+        } */
+
+        div.gallery {
+            margin: 5px;
+            border: 1px solid #ccc;
+            float: left;
+            width: 180px;
+        }
+
+        div.gallery:hover {
+            border: 1px solid #777;
+        }
+
+        div.gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+        div.desc {
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
-        <p></p>
+    <div class="container">
+        <p><%= msg %></p>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="image" />
             <button type="submit">Upload</button>
         </form>
     </div>
 
-    <div>
+    <div class="container">
         <h1>Uploaded Images</h1>
-        <div>
-            <!-- <img src="" alt=""> -->
+        <% images.forEach(function (image) { %>
+        <div class="gallery">
+
+            <a target="_blank" href="img_5terre.jpg">
+                <img src="<%= image.url %>" alt="Cinque Terre" width="600" height="400">
+            </a>
+            <div class="desc"><%= image.created_at %></div>
+
         </div>
+        <% }); %>
     </div>
 
 </body>

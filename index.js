@@ -2,6 +2,7 @@ const express = require("express")
 const multer = require("multer")
 const url = require("url")
 
+
 const db = require("./db")
 
 const upload_destination = 'uploads/'
@@ -34,14 +35,24 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.set('view engine', 'ejs')
-
+// app.use('/uploads', express.static('uploads'))
+app.use('/uploads',express.static('uploads'))
 
 app.get('/', (req, res) => {
 
     const msg = req.params.msg
     console.log(msg)
-    // read all the uploaded images and render them on the screen
-    return res.render('index', { msg })
+
+    db.readAll()
+        .then(readAllRes => {
+            console.log(readAllRes)
+            return res.render('index', { msg, images: readAllRes.rows })
+        })
+        .catch(readAllErr => {
+            console.log(readAllErr)
+            return res.render('index', { msg: "error reading all images" })
+        })
+
 })
 
 app.get('/upload', (req, res) => {
